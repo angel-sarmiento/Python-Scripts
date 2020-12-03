@@ -1,0 +1,33 @@
+from bs4 import BeautifulSoup
+import requests
+
+import pandas as pd
+from pandas import Series, DataFrame
+
+#%%
+result = requests.get(url)
+c = result.content 
+
+soup = BeautifulSoup(c)
+
+# %% go to section of interest and use Inspect element to find it
+
+summary = soup.fin('div', {'class': 'list-land', 'id': 'content'})
+
+tables = summary.find_all('table')
+
+#%% working with the data to create a list 
+data = []
+
+rows = tables[0].findall('tr')
+
+for tr in rows:
+    cols = tr.findall('td')
+
+        for td in cols:
+
+            text = td.find(text=True)
+            print text,
+            data.append(text)
+
+
